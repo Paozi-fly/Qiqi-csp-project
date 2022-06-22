@@ -1,0 +1,58 @@
+<html>
+<head>
+    <style type="text/css">
+        body{
+            max-width: 500px;
+            margin: 0 auto;
+        }
+      button{
+          width:400px;
+          height:400px;
+          border-radius:200px;
+          border-color: aqua;
+          border-style: dotted;
+      }
+      #b1{
+      }
+      #b2{
+          display:none;
+
+      }
+      h1{
+        color:aqua;
+        size:48px;
+      }
+    </style>
+<title>
+    Fast click check
+</title>
+</head>
+<body background="Click-C.jpg">
+
+<h1>Please click as fast as you can</h1>
+<button id= "b1">
+    click to start
+</button>
+<button id= "b2">
+    click me faster
+</button>
+</body>
+</html>
+<script>
+    var i;
+    var hits =0;
+    var b1 = document.getElementById("b1")
+    var b2 = document.getElementById("b2")
+    b1.addEventListener("click", function() {
+        setTimeout(function(){
+            b2.style.display= "none";
+            document.write("You click "+(Math.round(hits/20))+" times per second.");
+        }, 20000);
+        b1.style.display = "none"
+        b2.style.display = "inherit"
+    })
+    b2.addEventListener("click", function () {
+        hits++;
+    })
+
+</script>

@@ -1,0 +1,188 @@
+<html>
+    <head>
+        <title> Fishing Caculator</title>
+    </head>
+    <style>
+        body{
+            background-color: Darkblue;
+            max-width:500px;
+            margin: 0px auto;
+        }
+        p{
+            text-align: center;
+            color: lightgrey;
+            font-size: 48px;
+        }
+        h1{
+            text-align: center;
+            color: lightgrey;
+            font-size: 24px;
+        }
+        #b1{
+            width: 200px;
+            height: 100px;
+        }
+        #B2{
+            width: 200px;
+            height: 100px;
+        }
+        #shanchu{
+            width: 150px;
+            height: 100px;
+        }
+        input{
+            width: 150px;
+            height: 75px;
+        }
+        #shang{
+            width: 125px;
+            height: 50px;
+        }
+        #xia{
+            width: 125px;
+            height: 50px;
+        }
+    </style>
+    <body>
+    <p id="weightoffish">
+        请输入鱼的重量(单位kg)->
+        <input
+                type="number"
+                name="weight"
+                id="input-weight"
+                size="5"
+        />
+    </p>
+    <div style="text-align: center">
+    <button id='b1'>
+        添加
+    </button>
+    <button id='b2'>
+        清除
+    </button>
+    </div>
+    <P id="output1"> 最终价格为 0 美金</P>
+    </body>
+    <h1 id="output2">你还未输入任何记录</h1>
+    <div style="text-align: center;"><button id="shanchu">删除</button>
+        <div style="text-align: center">
+            <button style="display: inline-block" id="shang">上</button>
+            <button id="xia">下</button>
+        </div>
+    </div>
+
+
+</html>
+    <script>
+        var weight=document.getElementById('input-weight')
+        var OUTPUT = document.getElementById('output1')
+        var OUTPUT2 = document.getElementById('output2')
+        var price=0;
+        var b1 = document.getElementById("b1")
+        var b2 = document.getElementById("b2")
+        var shanchu = document.getElementById("shanchu")
+        var shang = document.getElementById("shang")
+        var xia = document.getElementById("xia")
+        var weighthistory = []
+        var number = -1;
+        var currentprice;
+        var showprice;
+
+        var weights =0;
+
+        b1.addEventListener('click', function () {
+            weights=Math.trunc(weight.value)
+            if (weights < 30 && weights>= 20){
+                price = price+40;
+                currentprice= 40;
+            } else if(weights >= 30){
+                price = price +(60+(weights-30)*4);
+                currentprice = 60+(weights-30)*4
+            } else{
+                currentprice=0
+            }
+            OUTPUT.innerHTML = ("最终价格为 "+price+" 美金")
+            if(weights >=20) {
+                weighthistory.push(weights)
+            }
+            weight.value = ''
+
+            if (weighthistory.length != 0){
+                number = weighthistory.length -1
+                if(weights>=20) {
+                    OUTPUT2.innerHTML = (weights + "kg " + currentprice + "美元")
+                }
+            }
+        })
+
+        b2.addEventListener('click',function (){
+            price=0;
+            OUTPUT.innerHTML = ("最终价格为 "+0+" 美金")
+            weighthistory=[];
+            OUTPUT2.innerHTML = ("你还未输入任何记录")
+        })
+
+        shanchu.addEventListener('click',function () {
+            var removenumber = 0;
+            if (weighthistory[number] < 30 && weighthistory[number] >= 20) {
+                removenumber = 40;
+            } else if (weighthistory[number] >= 30) {
+                removenumber = 60 + (weighthistory[number] - 30) * 4
+            }
+            OUTPUT.innerHTML = ("最终价格为 " + (price - removenumber) + " 美金")
+            price = price - removenumber
+            weighthistory.splice(number, 1)
+            console.log(weighthistory)
+            number = weighthistory.length - 1
+            console.log(number)
+            if (weighthistory[number] < 30 && weighthistory[number] >= 20) {
+                showprice = 40;
+            } else if (weighthistory[number] >= 30) {
+                showprice = 60 + (weighthistory[number] - 30) * 4
+            } else {
+                showprice = 0
+            }
+            if (number >= 0){
+                OUTPUT2.innerHTML = (weighthistory[number] + "kg " + showprice + "美元")
+            } else {
+                OUTPUT2.innerHTML = ("你还未输入任何记录")
+            }
+        })
+
+        xia.addEventListener('click',function (){
+            if(number >=0) {
+                if (number < weighthistory.length - 1) {
+                    number++
+                }
+                if (weighthistory[number] < 30 && weighthistory[number] >= 20) {
+                    showprice = 40;
+                } else if (weighthistory[number] >= 30) {
+                    showprice = 60 + (weighthistory[number] - 30) * 4
+                } else {
+                    showprice = 0
+                }
+                OUTPUT2.innerHTML = (weighthistory[number] + "kg " +showprice + "美元")
+            }else{
+                OUTPUT2.innerHTML = ("你还未输入任何记录")
+            }
+        })
+
+        shang.addEventListener('click',function (){
+            if(number >= 0) {
+                if (number > 0) {
+                    number--
+                }
+                if (weighthistory[number] < 30 && weighthistory[number] >= 20) {
+                    showprice = 40;
+                } else if (weighthistory[number] >= 30) {
+                    showprice = 60 + (weighthistory[number] - 30) * 4
+                } else {
+                    showprice = 0
+                }
+                OUTPUT2.innerHTML = (weighthistory[number] + "kg " + showprice + "美元")
+            }else{
+                OUTPUT2.innerHTML = ("你还未输入任何记录")
+            }
+        })
+
+    </script>
